@@ -18,7 +18,7 @@ class HomePage extends Component {
   render() {
     return (
       <>
-        <h1>Today's trending</h1>
+        {/* <h1>Today's trending</h1> */}
         <ul className="ImageGallery">
           {this.state.popularMovies.map(movie => {
             const imgUrl = `${POSTER_URL}${movie.poster_path}`;
