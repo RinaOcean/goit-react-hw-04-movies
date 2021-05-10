@@ -1,119 +1,65 @@
-# Поиск изображений
+**Читать на других языках: [Русский](README.md), [Українська](README.ua.md).**
 
-Напиши приложение поиска изображений по ключевому слову. Превью рабочего
-приложения
-[смотри по ссылке](https://drive.google.com/file/d/1oXCGyiq4uKwW0zzraZLKk4lh3voBlBzZ/view?usp=sharing).
+# Критерии приема
 
-Создай компоненты `<Searchbar>`, `<ImageGallery>`, `<ImageGalleryItem>`,
-`<Loader>`, `<Button>` и `<Modal>`. ![preview](./src/mockup/preview.jpg)
+- Создан репозиторий `goit-react-hw-04-movies`
+- При сдаче домашней работы есть ссылки: на исходные файлы и рабочие страницы
+  каждого проекта на `Netlify`
+- В состоянии компонентов хранится минимально необходимый набор данных,
+  остальное вычисляется
+- При запуске кода задания, в консоли нету ошибок и предупреждений
+- Для каждого компонента есть отдельная папка с файлом React-компонента и файлом
+  стилей
+- Для компонентов описаны `propTypes`, и где необходимо, `defaultProps`
+- Все что компонент ожидает в виде пропов, передается ему при вызове
+- Имена компонентов понятные, описательные
+- JS-код чистый и понятный, используется `Prettier`
+- Стилизация делается только `SASS`, `CSS-модулями` или `Styled Components`.
+  Можно использовать библиотеки компонентов.
 
-## Инструкция Pixabay API
+## Задание «Кинопоиск»
 
-Для HTTP-запросов используй публичный сервис поиска изображений
-[Pixabay](https://pixabay.com/api/docs/). Зарегистрируйся и получи приватный
-ключ доступа.
+Создай базовую маршрутизацию для приложения поиска и хранения фильмов. Превью
+рабочего приложения
+[смотри по ссылке](https://drive.google.com/file/d/1vR0hi3n1236Q5Bg4-se-8JVKD9UKSfId/view?usp=sharing).
 
-URL-строка HTTP-запроса.
+## API themoviedb.org
 
-```bash
-https://pixabay.com/api/?q=что_искать&page=номер_страницы&key=твой_ключ&image_type=photo&orientation=horizontal&per_page=12
-```
+Для бекенда используй [themoviedb.org API](https://www.themoviedb.org/).
+Необходимо зарегистриваться (можно ввести произвольные данные) и получить
+API-ключ. В этой работе будут использоваться следующие ендпоинты.
 
-Pixabay API поддерживает пагинацию, по умолчанию параметр `page` равен `1`.
-Пусть в ответе приходит по 12 объектов, установлено в параметре `per_page`. Не
-забудь что при поиске по новому ключевому слову, необходимо сбрасывать значение
-`page` в `1`.
+- [https://developers.themoviedb.org/3/trending/get-trending](https://developers.themoviedb.org/3/trending/get-trending) -
+  список самых популярных фильмов на сегодня для создания коллекции на главной
+  странице.
+- [https://developers.themoviedb.org/3/search/search-movies](https://developers.themoviedb.org/3/search/search-movies) -
+  поиск кинофильма по ключевому слову на странице фильмов.
+- [https://developers.themoviedb.org/3/movies/get-movie-details](https://developers.themoviedb.org/3/movies/get-movie-details) -
+  запрос полной информации о фильме для страницы кинофильма.
+- [https://developers.themoviedb.org/3/movies/get-movie-credits](https://developers.themoviedb.org/3/movies/get-movie-credits) -
+  запрос информации о актёрском составе для страницы кинофильма.
+- [https://developers.themoviedb.org/3/movies/get-movie-reviews](https://developers.themoviedb.org/3/movies/get-movie-reviews) -
+  запрос обзоров для страницы кинофильма.
 
-В ответе от апи приходит массив объектов, в которых тебе интересны только
-следущие свойства.
+[Ссылка на документацию](https://developers.themoviedb.org/3/getting-started/introduction)
 
-- `id` - уникальный идентификатор
-- `webformatURL` - ссылка на маленькое изображение для списка карточек
-- `largeImageURL` - ссылка на большое изображение для модального окна
+## Маршруты
 
-## Описание компонента Searchbar
+В приложении должны быть следующие маршруты. Если пользователь зашел по
+несуществующему маршруту, его необходимо перенаправлять на домашнюю страницу.
 
-Компонент принимает один проп `onSubmit` - функцию для передачи значения инпута
-при сабмите формы. Создает DOM-элемент следующей структуры.
+- `'/'` - компонент `<HomePage>`, домашняя страница со списком популярных
+  кинофильмов.
+- `'/movies'` - компонент `<MoviesPage>`, страница поиска фильмов по ключевому
+  слову.
+- `'/movies/:movieId'` - компонент `<MovieDetailsPage>`, страница с детальной
+  информацией о кинофильме.
+- `/movies/:movieId/cast` - компонент `<Cast>`, информация о актерском составе.
+  Рендерится на странице `<MovieDetailsPage>`.
+- `/movies/:movieId/reviews` - компонент `<Reviews>`, информация об обзорах.
+  Рендерится на странице `<MovieDetailsPage>`.
 
-```html
-<header className="Searchbar">
-  <form className="SearchForm">
-    <button type="submit" className="SearchForm-button">
-      <span className="SearchForm-button-label">Search</span>
-    </button>
+## Code Splitting (разделение кода)
 
-    <input
-      className="SearchForm-input"
-      type="text"
-      autocomplete="off"
-      autofocus
-      placeholder="Search images and photos"
-    />
-  </form>
-</header>
-```
-
-## Описание компонента ImageGallery
-
-Список карточек изображений. Создает DOM-элемент следующей структуры.
-
-```html
-<ul className="ImageGallery">
-  <!-- Набор <li> с изображениями -->
-</ul>
-```
-
-## Описание компонента ImageGalleryItem
-
-Компонент элемента списка с изображением. Создает DOM-элемент следующей
-структуры.
-
-```html
-<li className="ImageGalleryItem">
-  <img src="" alt="" className="ImageGalleryItem-image" />
-</li>
-```
-
-## Описание компонента Button
-
-При нажатии на кнопку `Load more` должна догружаться следующая порция
-изображений и рендериться вместе с предыдущими. После загрузки и рендера новой
-партии изображений страница должна плавно скролиться. Для скрола используй
-следующий код.
-
-```js
-window.scrollTo({
-  top: document.documentElement.scrollHeight,
-  behavior: 'smooth',
-});
-```
-
-Кнопка должна рендерится только тогда, когда есть какие-то загруженные
-изобаржения. Если массив изображений пуст, кнопка не рендерится.
-
-## Описание компонента Loader
-
-Компонент спинера, отображется пока идет загрузка изобаржений. Используй любой
-готовый компонент, например
-[react-loader-spinner](https://github.com/mhnpd/react-loader-spinner) или любой
-другой.
-
-## Описание компонента Modal
-
-При клике по элементу галереи должно открываться модальное окно с темным
-оверлеем и отображаться большая версия изображения. Модальное окно должно
-закрываться по нажатию клавиши `ESC` или по клику на оверлее.
-
-Внешний вид похож на функционал этого
-[VanillaJS-плагина](https://basiclightbox.electerious.com/), только вместо
-белого модального окна рендерится изображение (в примере нажми `Run`). Анимацию
-делать не нужно!
-
-```html
-<div className="Overlay">
-  <div className="Modal">
-    <img src="" alt="" />
-  </div>
-</div>
-```
+Добавь асинхронную загрузку JS-кода для маршрутов приложения используя
+`React.lazy()` и `Suspense`.
