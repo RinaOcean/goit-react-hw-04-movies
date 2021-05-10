@@ -1,13 +1,32 @@
-import React, { Component } from 'react';
-import { Route, NavLink, Redirect } from 'react-router-dom';
-// import { ToastContainer, toast } from 'react-toastify';
+import React, { Component, Suspense, lazy } from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-import HomePage from './pages/HomePage';
-import MoviesPage from './pages/MoviesPage';
+import AppBar from './components/AppBar';
+import Loader from './components/Loader';
+// import HomePage from './pages/HomePage';
+// import MoviesPage from './pages/MoviesPage';
+// import MovieDetailsPage from './pages/MovieDetailsPage';
+// import Cast from './components/Cast';
 
+import routes from './routes';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
-import Switch from 'react-bootstrap/esm/Switch';
+
+const HomePage = lazy(() =>
+  import('./pages/HomePage' /* webpackChunkName: "home-page" */),
+);
+const MovieDetailsPage = lazy(() =>
+  import(
+    './pages/MovieDetailsPage' /* webpackChunkName: "movie-details-page" */
+  ),
+);
+const MoviesPage = lazy(() =>
+  import('./pages/MoviesPage' /* webpackChunkName: "movies-page" */),
+);
+const Cast = lazy(() =>
+  import('./components/Cast' /* webpackChunkName: "cast-page" */),
+);
 
 class App extends Component {
   // state = {
@@ -22,38 +41,18 @@ class App extends Component {
   render() {
     return (
       <>
-        <header className="Header">
-          <ul className="NavList">
-            <li>
-              <NavLink
-                exact
-                to="/"
-                className="NavLink"
-                activeClassName="NavLink--active"
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/movies"
-                className="NavLink"
-                activeClassName="NavLink--active"
-              >
-                Movies
-              </NavLink>
-            </li>
-          </ul>
-        </header>
-
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/movies" component={MoviesPage} />
-          {/* <Route path="/movies/:movieId" component={MoviesPage} /> */}
-          {/* <Route path="/movies/:movieId/cast" component={MoviesPage} /> */}
-          {/* <Route path="/movies/:movieId/reviews" component={MoviesPage} /> */}
-          <Redirect to="/" />
-        </Switch>
+        <AppBar />
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route exact path={routes.home} component={HomePage} />
+            <Route path={routes.movieDetails} component={MovieDetailsPage} />
+            <Route path={routes.movies} component={MoviesPage} />
+            {/* <Route path={routes.cast} component={Cast} /> */}
+            {/* <Route path="/movies/:movieId/reviews" component={Reviews} /> */}
+            <Redirect to={routes.home} />
+          </Switch>
+        </Suspense>
+        <ToastContainer />
       </>
     );
   }

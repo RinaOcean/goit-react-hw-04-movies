@@ -1,0 +1,27 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 130px;
+}
+
+.MovieDetailsWrapper {
+  display: flex;
+}
+
+.MovieInfo {
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 30px;
+  font-size: 20px;
+}
+.MoviePoster {
+  width: 300px;
+  max-height: 450px;
+}
+
+.Rating,
+.Overview,
+.Genres {
+  margin-top: 30px;
+}

@@ -1,25 +1,10 @@
 import axios from 'axios';
-import { Component } from 'react';
+// import { Component } from 'react';
+import apiSettings from '../services/apiSettings';
 
-const API_KEY = 'cf67346d4a1073d4492c64be3b76153f';
-const BASE_URL = 'https://api.themoviedb.org/3';
+const { API_KEY, BASE_URL } = apiSettings;
 
-// список самых популярных фильмов на сегодня для создания коллекции на главной странице.
-// ${BASE_URL}/trending/all/day?api_key=${cf67346d4a1073d4492c64be3b76153f}
-
-// поиск кинофильма по ключевому слову на странице фильмов.
-// https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&&query=""page=1&include_adult=false
-
-// запрос полной информации о фильме для страницы кинофильма.
-//api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
-
-// запрос информации о актёрском составе для страницы кинофильма.
-// https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>>&language=en-US
-
-// запрос обзоров для страницы кинофильма.
-// https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key=<<api_key>>&language=en-US&page=1
-
-export default class ApiMovies {
+class ApiMovies {
   constructor() {
     this.searchQuery = '';
     this.movieId = '';
@@ -31,7 +16,37 @@ export default class ApiMovies {
     const response = await axios.get(
       `${BASE_URL}/trending/movie/day?api_key=${API_KEY}`,
     );
+
     return response.data.results;
-    // console.log();
+  }
+
+  async getMovieDetails(movieId) {
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`,
+    );
+    return response.data;
+  }
+
+  async getMoviesByQuery(query) {
+    const response = await axios.get(
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`,
+    );
+    return response.data.results;
+  }
+
+  async getCast(movieId) {
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`,
+    );
+    return response.data.cast;
+  }
+
+  async getReviews(movieId) {
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`,
+    );
+    return response.data.results;
   }
 }
+
+export default ApiMovies;

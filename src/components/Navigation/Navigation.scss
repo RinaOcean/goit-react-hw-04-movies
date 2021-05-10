@@ -1,0 +1,26 @@
+.NavList {
+  display: flex;
+}
+
+.NavLink {
+  font-size: 20px;
+  color: #fff;
+
+  &:first-child {
+    margin-right: 15px;
+  }
+}
+
+.NavLink:hover {
+  font-weight: 700;
+  color: palegreen;
+}
+
+.NavLink--active {
+  font-weight: 700;
+  padding-bottom: 2px;
+  // border-radius: 10px;
+  border-bottom: 3px solid palegreen;
+  // background-color: #5a3a64;
+  color: palegreen;
+}
