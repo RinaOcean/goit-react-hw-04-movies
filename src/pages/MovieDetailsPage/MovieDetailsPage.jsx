@@ -5,6 +5,7 @@ import apiSettings from '../../services/apiSettings';
 import Container from '../../components/Container';
 // import Cast from '../../components/Cast';
 // import Reviews from '../../components/Reviews';
+import routs from '../../routes';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Loader from '../../components/Loader';
 
@@ -36,6 +37,18 @@ class MovieDetailsPage extends Component {
     this.setState({ ...movieDetails });
   }
 
+  handleGoBack = () => {
+    const { location, history } = this.props;
+
+    if (location.state && location.state.from) {
+      return history.push(location.state.from);
+    }
+    history.push(routs.home);
+
+    // новый метод. Оператор опциональной последовательности
+    //  history.push(location?.state?.from || routs.home)
+  };
+
   render() {
     const {
       title,
@@ -52,7 +65,7 @@ class MovieDetailsPage extends Component {
 
     return (
       <Container className="Container">
-        <button className="GoBackBtn">
+        <button className="GoBackBtn" onClick={this.handleGoBack}>
           <ArrowBackIosIcon />
           back
         </button>
