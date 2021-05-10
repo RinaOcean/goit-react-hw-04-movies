@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -25,34 +25,21 @@ const MoviesPage = lazy(() =>
   import('./pages/MoviesPage' /* webpackChunkName: "movies-page" */),
 );
 
-class App extends Component {
-  // state = {
-  //   movies: [],
-  // };
-
-  // componentDidMount() {}
-  // componentDidUpdate(prevProps, prevState) {
-
-  // }
-
-  render() {
-    return (
-      <>
-        <AppBar />
-        <Suspense fallback={<Loader />}>
-          <Switch>
-            <Route exact path={routes.home} component={HomePage} />
-            <Route path={routes.movieDetails} component={MovieDetailsPage} />
-            <Route path={routes.movies} component={MoviesPage} />
-            {/* <Route path={routes.cast} component={Cast} /> */}
-            {/* <Route path="/movies/:movieId/reviews" component={Reviews} /> */}
-            <Redirect to={routes.home} />
-          </Switch>
-        </Suspense>
-        <ToastContainer />
-      </>
-    );
-  }
-}
+const App = () => (
+  <>
+    <AppBar />
+    <Suspense fallback={<Loader />}>
+      <Switch>
+        <Route exact path={routes.home} component={HomePage} />
+        <Route path={routes.movieDetails} component={MovieDetailsPage} />
+        <Route path={routes.movies} component={MoviesPage} />
+        {/* <Route path={routes.cast} component={Cast} /> */}
+        {/* <Route path="/movies/:movieId/reviews" component={Reviews} /> */}
+        <Redirect to={routes.home} />
+      </Switch>
+    </Suspense>
+    <ToastContainer />
+  </>
+);
 
 export default App;

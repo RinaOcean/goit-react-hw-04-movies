@@ -13,6 +13,8 @@ class MoviesPage extends Component {
   static propTypes = {
     inputValue: PropTypes.string,
     movies: PropTypes.arrayOf(PropTypes.object),
+    error: PropTypes.object,
+    loading: PropTypes.bool,
   };
 
   state = {
@@ -45,7 +47,11 @@ class MoviesPage extends Component {
       this.setState({ loading: true });
 
       const movieDetails = await apiMovies.getMoviesByQuery(query);
-      this.setState({ movies: movieDetails, loading: false });
+      if (movieDetails.length > 0) {
+        return this.setState({ movies: movieDetails, loading: false });
+      }
+      toast.warn(`There is no movie named ${query}`);
+      this.setState({ inputValue: '', loading: false });
     } catch (error) {
       toast.error('Error occurred. Try later');
       this.setState({ error });

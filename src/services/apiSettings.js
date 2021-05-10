@@ -4,7 +4,7 @@ import photo from '../noPhotoImg.jpg';
 export default {
   BASE_URL: 'https://api.themoviedb.org/3',
   API_KEY: 'cf67346d4a1073d4492c64be3b76153f',
-  POSTER_URL: 'https://image.tmdb.org/t/p/w400',
+  POSTER_URL: 'https://image.tmdb.org/t/p/w500',
   NOPOSTER_URL: img,
   NOPHOTO_URL: photo,
 };

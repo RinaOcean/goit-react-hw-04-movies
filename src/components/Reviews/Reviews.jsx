@@ -1,10 +1,21 @@
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import ShowMoreText from 'react-show-more-text';
 import apiMovies from '../../services/universalApiClass';
 import './Reviews.scss';
 
 class Reviews extends Component {
+  static propTypes = {
+    cast: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        author: PropTypes.string,
+        content: PropTypes.string,
+      }),
+    ),
+  };
+
   state = {
     reviews: [],
   };

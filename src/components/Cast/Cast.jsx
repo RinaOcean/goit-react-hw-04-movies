@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import apiMovies from '../../services/universalApiClass';
 import apiSettings from '../../services/apiSettings';
 
@@ -8,6 +9,17 @@ import './Cast.scss';
 const { POSTER_URL, NOPHOTO_URL } = apiSettings;
 
 class Cast extends Component {
+  static propTypes = {
+    cast: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        profile_path: PropTypes.string,
+        name: PropTypes.string,
+        character: PropTypes.string,
+      }),
+    ),
+  };
+
   state = {
     cast: [],
   };

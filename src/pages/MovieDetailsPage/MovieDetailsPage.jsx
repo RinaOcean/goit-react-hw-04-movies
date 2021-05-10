@@ -1,5 +1,7 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { Route, NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import apiMovies from '../../services/universalApiClass';
 import apiSettings from '../../services/apiSettings';
 import Container from '../../components/Container';
@@ -20,6 +22,15 @@ const Reviews = lazy(() =>
 );
 
 class MovieDetailsPage extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+    poster_path: PropTypes.string,
+    release_date: PropTypes.string,
+    vote_average: PropTypes.number,
+    overview: PropTypes.string,
+    genres: PropTypes.arrayOf(PropTypes.object),
+  };
+
   state = {
     title: '',
     poster_path: '',
@@ -62,7 +73,7 @@ class MovieDetailsPage extends Component {
     const imgUrl = `${POSTER_URL}${poster_path}`;
     const ratingPercentage = vote_average * 10;
     const allGenres = genres.map(genre => genre.name).join(', ');
-
+    console.log(poster_path);
     return (
       <Container className="Container">
         <button className="GoBackBtn" onClick={this.handleGoBack}>
