@@ -24,9 +24,6 @@ const MovieDetailsPage = lazy(() =>
 const MoviesPage = lazy(() =>
   import('./pages/MoviesPage' /* webpackChunkName: "movies-page" */),
 );
-const Cast = lazy(() =>
-  import('./components/Cast' /* webpackChunkName: "cast-page" */),
-);
 
 class App extends Component {
   // state = {

@@ -1,13 +1,22 @@
-import { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import apiMovies from '../../services/universalApiClass';
 import apiSettings from '../../services/apiSettings';
 import Container from '../../components/Container';
-import Cast from '../../components/Cast';
-import Reviews from '../../components/Reviews';
+// import Cast from '../../components/Cast';
+// import Reviews from '../../components/Reviews';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Loader from '../../components/Loader';
 
 const { POSTER_URL, NOPOSTER_URL } = apiSettings;
+
+const Cast = lazy(() =>
+  import('../../components/Cast' /* webpackChunkName: "cast-page" */),
+);
+
+const Reviews = lazy(() =>
+  import('../../components/Reviews' /* webpackChunkName: "reviews-page" */),
+);
 
 class MovieDetailsPage extends Component {
   state = {
@@ -94,11 +103,13 @@ class MovieDetailsPage extends Component {
               Reviews
             </NavLink>
           </li>
-          <Route path={`${this.props.match.path}/cast`} component={Cast} />
-          <Route
-            path={`${this.props.match.path}/reviews`}
-            component={Reviews}
-          />
+          <Suspense fallback={<Loader />}>
+            <Route path={`${this.props.match.path}/cast`} component={Cast} />
+            <Route
+              path={`${this.props.match.path}/reviews`}
+              component={Reviews}
+            />
+          </Suspense>
         </ul>
       </Container>
     );

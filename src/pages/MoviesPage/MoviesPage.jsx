@@ -26,6 +26,9 @@ class MoviesPage extends Component {
     }
 
     this.onSearchQuery(this.state.inputValue);
+    this.props.history.push({
+      search: `search=${this.state.inputValue}`,
+    });
   };
 
   async onSearchQuery(query) {
