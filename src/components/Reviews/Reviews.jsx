@@ -26,6 +26,10 @@ class Reviews extends Component {
     );
 
     this.setState({ reviews: reviewsDetails });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   executeOnClick(isExpanded) {

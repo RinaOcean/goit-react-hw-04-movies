@@ -30,6 +30,10 @@ class Cast extends Component {
     );
 
     this.setState({ cast: castDetails });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   render() {

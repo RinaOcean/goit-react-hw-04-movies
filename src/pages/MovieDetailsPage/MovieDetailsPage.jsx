@@ -103,9 +103,9 @@ class MovieDetailsPage extends Component {
             <NavLink
               to={{
                 pathname: `${this.props.match.url}/cast`,
-                state: {
-                  from: this.props.location,
-                },
+                // state: {
+                //   from: this.props.location,
+                // },
               }}
               className="NavLinkDetails"
               activeClassName="NavLinkDetails--active"
@@ -117,9 +117,9 @@ class MovieDetailsPage extends Component {
             <NavLink
               to={{
                 pathname: `${this.props.match.url}/reviews`,
-                state: {
-                  from: this.props.location,
-                },
+                // state: {
+                //   from: this.props.location,
+                // },
               }}
               className="NavLinkDetails"
               activeClassName="NavLinkDetails--active"
