@@ -54,7 +54,7 @@ class MovieDetailsPage extends Component {
     if (location.state && location.state.from) {
       return history.push(location.state.from);
     }
-    history.push(routs.home);
+    history.push(routs.movies);
 
     // новый метод. Оператор опциональной последовательности
     //  history.push(location?.state?.from || routs.home)
