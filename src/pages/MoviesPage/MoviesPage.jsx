@@ -66,7 +66,7 @@ class MoviesPage extends Component {
 
     if (prevQuery !== nextQuery) {
       if (typeof nextQuery === 'undefined') {
-        return this.props.history.push(routes.home);
+        return this.setState({ inputValue: '' });
       }
       this.onSearchQuery(nextQuery);
       this.setState({ inputValue: nextQuery });
@@ -100,7 +100,9 @@ class MoviesPage extends Component {
         </form>
         {loading && <Loader />}
         {error && <ErrorMarkup />}
-        <MoviesGallery request={this.state.movies} />
+        {this.state.inputValue !== '' ? (
+          <MoviesGallery request={this.state.movies} />
+        ) : null}
       </>
     );
   }
