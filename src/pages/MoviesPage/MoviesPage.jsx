@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import queryString from 'query-string';
 
 import apiMovies from '../../services/universalApiClass';
-import routes from '../../routes';
+
 import MoviesGallery from '../../components/MoviesGallery';
 import Loader from '../../components/Loader';
 import ErrorMarkup from '../../components/ErrorMarkup/ErrorMarkup';
@@ -28,20 +28,6 @@ class MoviesPage extends Component {
     this.setState({ inputValue: event.currentTarget.value });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    if (this.state.inputValue.trim() === '') {
-      toast.warn('Please, enter something');
-      return;
-    }
-
-    this.onSearchQuery(this.state.inputValue);
-    this.props.history.push({
-      // pathname: this.props.location.pathname,
-      search: `search=${this.state.inputValue}`,
-    });
-  };
-
   async onSearchQuery(query) {
     try {
       this.setState({ loading: true });
@@ -59,7 +45,31 @@ class MoviesPage extends Component {
     }
   }
 
+  handleSubmit = event => {
+    event.preventDefault();
+    if (this.state.inputValue.trim() === '') {
+      toast.warn('Please, enter something');
+      return;
+    }
+
+    this.onSearchQuery(this.state.inputValue);
+    this.props.history.push({
+      // pathname: this.props.location.pathname,
+      search: `search=${this.state.inputValue}`,
+    });
+  };
+
   getQueryFromProps = props => queryString.parse(props.location.search).search;
+
+  componentDidMount() {
+    const currentQuery = this.getQueryFromProps(this.props);
+    if (typeof currentQuery === 'undefined') {
+      return this.setState({ inputValue: '' });
+    }
+    this.onSearchQuery(currentQuery);
+    this.setState({ inputValue: currentQuery });
+  }
+
   componentDidUpdate(prevProps) {
     const prevQuery = this.getQueryFromProps(prevProps);
     const nextQuery = this.getQueryFromProps(this.props);
@@ -70,14 +80,15 @@ class MoviesPage extends Component {
       }
       this.onSearchQuery(nextQuery);
       this.setState({ inputValue: nextQuery });
+      return;
     }
   }
-  componentWillUnmount() {
-    this.setState({ inputValue: '' });
-    this.props.history.push({
-      search: '',
-    });
-  }
+  // componentWillUnmount() {
+  //   this.setState({ inputValue: '' });
+  //   this.props.history.push({
+  //     search: '',
+  //   });
+  // }
 
   render() {
     const { inputValue, loading, error } = this.state;

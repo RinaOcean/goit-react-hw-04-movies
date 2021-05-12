@@ -6,7 +6,10 @@ import './MovieCard.scss';
 const { POSTER_URL, NOPOSTER_URL } = apiSettings;
 
 const MovieCard = ({ poster_path, id, title, location }) => {
-  const imgUrl = `${POSTER_URL}${poster_path}`;
+  let imgUrl = NOPOSTER_URL;
+  if (poster_path !== null) {
+    imgUrl = `${POSTER_URL}${poster_path}`;
+  }
   return (
     <Link
       to={{
@@ -18,11 +21,7 @@ const MovieCard = ({ poster_path, id, title, location }) => {
       className="Link"
     >
       <div className="MoviesGalleryItem-image--thumb">
-        <img
-          src={poster_path !== null ? imgUrl : NOPOSTER_URL}
-          alt={title}
-          className="MoviesGalleryItem-image"
-        />
+        <img src={imgUrl} alt={title} className="MoviesGalleryItem-image" />
       </div>
       <div className="MoviesGalleryItem-title">
         <span>{title}</span>

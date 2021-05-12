@@ -33,7 +33,7 @@ class MovieDetailsPage extends Component {
 
   state = {
     title: '',
-    poster_path: '',
+    poster_path: null,
     release_date: '',
     vote_average: null,
     overview: '',
@@ -70,10 +70,13 @@ class MovieDetailsPage extends Component {
       genres,
     } = this.state;
 
-    const imgUrl = `${POSTER_URL}${poster_path}`;
+    let imgUrl = NOPOSTER_URL;
+    if (poster_path !== null) {
+      imgUrl = `${POSTER_URL}${poster_path}`;
+    }
     const ratingPercentage = vote_average * 10;
     const allGenres = genres.map(genre => genre.name).join(', ');
-    console.log(poster_path);
+
     return (
       <Container className="Container">
         <button className="GoBackBtn" onClick={this.handleGoBack}>
@@ -82,11 +85,8 @@ class MovieDetailsPage extends Component {
         </button>
 
         <div className="MovieDetailsWrapper">
-          <img
-            src={poster_path !== null ? imgUrl : NOPOSTER_URL}
-            alt=""
-            className="MoviePoster"
-          />
+          <img src={imgUrl} alt="" className="MoviePoster" />
+
           <div className="MovieInfo">
             <h1>{title}</h1>
             <span>Release date: {release_date}</span>
