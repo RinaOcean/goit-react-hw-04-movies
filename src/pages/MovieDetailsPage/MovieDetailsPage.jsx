@@ -1,5 +1,5 @@
 import React, { Component, Suspense, lazy } from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import apiMovies from '../../services/universalApiClass';
@@ -44,6 +44,7 @@ class MovieDetailsPage extends Component {
     const movieDetails = await apiMovies.getMovieDetails(
       this.props.match.params.movieId,
     );
+    // console.log(this.props.location.state.from.pathname);
 
     this.setState({ ...movieDetails });
   }
@@ -54,7 +55,7 @@ class MovieDetailsPage extends Component {
     if (location.state && location.state.from) {
       return history.push(location.state.from);
     }
-    history.push(routs.movies);
+    history.push(routs.home);
 
     // новый метод. Оператор опциональной последовательности
     //  history.push(location?.state?.from || routs.home)
@@ -103,9 +104,9 @@ class MovieDetailsPage extends Component {
             <NavLink
               to={{
                 pathname: `${this.props.match.url}/cast`,
-                // state: {
-                //   from: this.props.location,
-                // },
+                state: {
+                  from: this.props.location.state.from,
+                },
               }}
               className="NavLinkDetails"
               activeClassName="NavLinkDetails--active"
@@ -117,9 +118,9 @@ class MovieDetailsPage extends Component {
             <NavLink
               to={{
                 pathname: `${this.props.match.url}/reviews`,
-                // state: {
-                //   from: this.props.location,
-                // },
+                state: {
+                  from: this.props.location.state.from,
+                },
               }}
               className="NavLinkDetails"
               activeClassName="NavLinkDetails--active"
@@ -139,4 +140,4 @@ class MovieDetailsPage extends Component {
     );
   }
 }
-export default MovieDetailsPage;
+export default withRouter(MovieDetailsPage);
